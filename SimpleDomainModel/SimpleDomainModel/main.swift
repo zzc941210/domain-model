@@ -102,10 +102,11 @@ open class Job {
   open func raise(_ amt : Double) {
     switch type {
     case .Hourly(let numH):
-        self.type = .Hourly(numH + amt)
-        //self.type = .Hourly(numH * (1.0 + 0.01 * amt))
+        self.type = .Hourly(numH + amt) // by pre-written unit-test
+        //self.type = .Hourly(numH * (1.0 + 0.01 * amt)) // by spec ppt.
     case .Salary(let numS) :
-        self.type = .Salary(numS + Int(amt))
+        self.type = .Salary(numS + Int(amt)) // by pre-written unit-test
+        //self.type = .Salary(numS * (1.0 + 0.01 * amt)) // by spec ppt .
     }
   }
 }
@@ -158,7 +159,7 @@ open class Family {
   fileprivate var members : [Person] = []
   
   public init(spouse1: Person, spouse2: Person) {
-    if (spouse1.age >= 21 || spouse2.age >= 21) {
+    if (spouse1.spouse == nil && spouse2.spouse == nil && (spouse1.age >= 21 || spouse2.age >= 21)) {
         spouse1.spouse = spouse2
         spouse2.spouse = spouse1
         members.append(spouse1)
