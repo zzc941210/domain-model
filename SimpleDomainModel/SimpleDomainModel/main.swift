@@ -25,20 +25,25 @@ open class TestMe {
 //
 public struct Money {
     public var amount : Double
-    public var currency : String
+    public var currency : currencyType
+    
+    public enum currencyType {
+        case USD
+        case GBP
+        case EUR
+        case CAN
+    }
 
-    public func convert(_ to: String) -> Money {
+    public func convert(_ to: currencyType) -> Money {
         switch to {
-        case "USD":
-            return Money(amount: toUSD(), currency: "USD")
-        case "GBP":
-            return Money(amount: toUSD() * 0.5, currency: "GBP")
-        case "EUR":
-            return Money(amount: toUSD() * 1.5, currency: "EUR")
-        case "CAN":
-            return Money(amount: toUSD() * 1.25, currency: "CAN")
-        default:
-            return Money(amount: 0, currency: "nil")
+        case .USD:
+            return Money(amount: toUSD(), currency: to)
+        case .GBP:
+            return Money(amount: toUSD() * 0.5, currency: to)
+        case .EUR:
+            return Money(amount: toUSD() * 1.5, currency: to)
+        case .CAN:
+            return Money(amount: toUSD() * 1.25, currency: to)
         }
     }
 
@@ -53,16 +58,15 @@ public struct Money {
     }
     
     private func toUSD() -> Double {
-        if (currency == "USD") { return amount }
         switch currency {
-        case "GBP":
+        case .GBP:
             return amount / 0.5
-        case "EUR":
+        case .EUR:
             return amount / 1.5
-        case "CAN":
+        case .CAN:
             return amount / 1.25
-        default:
-            return 0
+        case .USD:
+            return amount
         }
     }
 }
